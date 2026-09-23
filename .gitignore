@@ -1,0 +1,17 @@
+# Secrets — never commit
+auth.json
+notion.json.local
+
+# Private session logs & caches
+sessions/
+web-search-cache/
+**/.cache/
+
+# Installed dependencies / binaries
+npm/node_modules/
+bin/
+**/.venv/
+node_modules/
+
+# OS cruft
+.DS_Store

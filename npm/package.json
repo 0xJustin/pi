@@ -1,0 +1,9 @@
+{
+  "name": "pi-extensions",
+  "private": true,
+  "dependencies": {
+    "pi-image-paste": "^1.0.0",
+    "pi-notion": "^1.2.0",
+    "pi-web-access": "^0.25.0"
+  }
+}

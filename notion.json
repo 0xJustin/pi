@@ -1,0 +1,5 @@
+{
+  "apiToken": "REPLACE_WITH_YOUR_NOTION_TOKEN",
+  "outputDir": "/groups/turaga/home/ellisj1/song_workspace/tmp/notion-docs",
+  "notionVersion": "2022-06-28"
+}
