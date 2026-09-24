@@ -9,6 +9,8 @@ Make sure everything this session did is recorded where the next reader looks, s
 only in the conversation. Work from your own actions this session; never touch another session's
 files or dirty work.
 
+Wrap-up never touches the daily note; that is `closeout`, run only when the user closes out the day.
+
 1. Worklog: every meaningful chunk has a line in
    ~/song_workspace/agent_project_information/worklogs/<today>.md, with the node id first.
 2. Tree: every node you opened or changed is current — status, evidence, `## Outcome`. Any action
