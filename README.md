@@ -14,7 +14,7 @@ Backup of my [pi](https://github.com/earendil-works/pi) coding-agent configurati
 | `trust.json` | Trusted working directories |
 | `agents/` | Subagents: planner, reviewer, scout, worker |
 | `prompts/` | Prompt templates (scout-and-plan, implement, implement-and-review) |
-| `skills/` | Skills: `closeout`, `repo-map`, `show-plot`, `code-here` (scripts + SKILL.md) |
+| `skills/` | Skills: `closeout`, `repo-map`, `show-plot`, `code-here`, `brief`, `wrap-up` (scripts + SKILL.md) |
 | `extensions/` | `herdr-agent-state.ts` |
 | `herdr-plugins/` | herdr plugins, linked with `herdr plugin link <dir>`: `tab-done` (● on tabs with an unseen finished turn), `code-here` (open the focused pane's worktree in VS Code) |
 | `npm/` | Extension package manifest + lockfile |
