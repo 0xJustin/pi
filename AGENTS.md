@@ -24,6 +24,8 @@ only what applies everywhere.
   bundle build, or GPU job, say what would run, on what, and what it would show — then ask.
 - When asked for a skeleton, give it as its own step: which functions change and their before/after
   shape. Plan approval is not edit approval.
+- Figures (PNG/JPG/PDF) in a reply are given as the Mac path, `/Volumes/turaga$/ellisj1/…` (plain, not
+  `file://`, not in backticks), so Shift+Cmd+click in Ghostty opens them in Preview. Other paths stay `~/…`.
 - A number in a reply needs the figure or file that carries it. Deep analysis ships as an interactive
   marimo notebook (heavy load once, cheap knobs) or at least a figure, not a text table.
 - Interfaces you build speak through colour, shape and position; metadata and actions on hover; no
