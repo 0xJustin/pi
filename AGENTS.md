@@ -26,6 +26,8 @@ only what applies everywhere.
   shape. Plan approval is not edit approval.
 - Figures (PNG/JPG/PDF) in a reply are given as the Mac path, `/Volumes/turaga$/ellisj1/…` (plain, not
   `file://`, not in backticks), so Shift+Cmd+click in Ghostty opens them in Preview. Other paths stay `~/…`.
+- Presenting a code change: name its repo and worktree, and open the worktree root in my VS Code with
+  `code-here <path>` (`file:line` for a specific line).
 - A number in a reply needs the figure or file that carries it. Deep analysis ships as an interactive
   marimo notebook (heavy load once, cheap knobs) or at least a figure, not a text table.
 - Interfaces you build speak through colour, shape and position; metadata and actions on hover; no

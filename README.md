@@ -14,7 +14,7 @@ Backup of my [pi](https://github.com/earendil-works/pi) coding-agent configurati
 | `trust.json` | Trusted working directories |
 | `agents/` | Subagents: planner, reviewer, scout, worker |
 | `prompts/` | Prompt templates (scout-and-plan, implement, implement-and-review) |
-| `skills/` | Skills: `closeout`, `repo-map`, `show-plot` (scripts + SKILL.md) |
+| `skills/` | Skills: `closeout`, `repo-map`, `show-plot`, `code-here` (scripts + SKILL.md) |
 | `extensions/` | `herdr-agent-state.ts` |
 | `npm/` | Extension package manifest + lockfile |
 

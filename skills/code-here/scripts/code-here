@@ -1,0 +1,26 @@
+#!/bin/bash
+# Open folders or files from any cluster shell in the Mac's VS Code window connected here over Remote-SSH.
+#   code-here [PATH | FILE:LINE ...]    default: the current git worktree root, else the current directory
+set -euo pipefail
+
+sock=""
+for s in $(ls -t /run/user/"$(id -u)"/vscode-ipc-*.sock 2>/dev/null); do
+  if python3 -c 'import socket, sys; socket.socket(socket.AF_UNIX).connect(sys.argv[1])' "$s" 2>/dev/null; then
+    sock=$s; break
+  fi
+done
+[ -n "$sock" ] || { echo "code-here: no VS Code window is connected to $(hostname -s) over Remote-SSH" >&2; exit 1; }
+
+node=$(ps -u "$(id -u)" --sort=-start_time -o args= \
+  | grep -oE "$HOME/\.vscode-server/(bin/[0-9a-f]+|cli/servers/[^/ ]+/server)/node" | head -1)
+cli="$(dirname "$node")/bin/remote-cli/code"
+
+if [ $# -eq 0 ]; then
+  top=$(git rev-parse --show-toplevel 2>/dev/null || true)
+  # $HOME is itself a stray git repo; never open it as a worktree.
+  if [ -n "$top" ] && [ "$top" != "$HOME" ]; then set -- "$top"; else set -- "$PWD"; fi
+fi
+goto=()
+for a in "$@"; do [[ $a =~ :[0-9]+(:[0-9]+)?$ ]] && goto=(-g); done
+
+VSCODE_IPC_HOOK_CLI=$sock exec "$cli" "${goto[@]}" "$@"
