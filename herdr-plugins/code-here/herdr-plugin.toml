@@ -1,0 +1,12 @@
+id = "justin.code-here"
+name = "Open in VS Code"
+version = "0.1.0"
+min_herdr_version = "0.8.0"
+description = "Open the focused pane's git worktree (or folder) in the Mac's VS Code via code-here"
+platforms = ["linux"]
+
+[[actions]]
+id = "open"
+title = "Open pane folder in VS Code"
+contexts = ["pane", "workspace"]
+command = ["bash", "open.sh"]
