@@ -11,6 +11,7 @@ web-search-cache/
 npm/node_modules/
 bin/
 **/.venv/
+**/__pycache__/
 node_modules/
 
 # OS cruft

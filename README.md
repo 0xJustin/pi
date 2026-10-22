@@ -14,7 +14,7 @@ Backup of my [pi](https://github.com/earendil-works/pi) coding-agent configurati
 | `trust.json` | Trusted working directories |
 | `agents/` | Subagents: planner, reviewer, scout, worker |
 | `prompts/` | Prompt templates (scout-and-plan, implement, implement-and-review) |
-| `skills/` | Skills: `closeout`, `repo-map`, `show-plot`, `code-here`, `brief`, `wrap-up` (scripts + SKILL.md) |
+| `skills/` | Skills: `closeout`, `repo-map`, `show-plot`, `code-here`, `brief`, `wrap-up`, `figures` (scripts + SKILL.md; `figures` bundles Source Sans 3 under the OFL) |
 | `extensions/` | `herdr-agent-state.ts` |
 | `herdr-plugins/` | herdr plugins, linked with `herdr plugin link <dir>`: `tab-done` (● on tabs with an unseen finished turn), `code-here` (open the focused pane's worktree in VS Code), `pane-node` (pane label and agent name = the ids of the problem-tree nodes whose `sessions:` list the pane's session) |
 | `npm/` | Extension package manifest + lockfile |
@@ -35,4 +35,4 @@ cd ~/.pi/agent/npm && npm install
 ## Not included (see `.gitignore`)
 
 `auth.json`, `sessions/`, `web-search-cache/`, `bin/` binaries,
-`npm/node_modules/`, skill `.venv/` and `.cache/`.
+`npm/node_modules/`, skill `.venv/`, `.cache/` and `__pycache__/`.
