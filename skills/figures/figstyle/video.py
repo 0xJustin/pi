@@ -60,10 +60,17 @@ def _grab(mp4, t, width):
 
 
 def poster(mp4, t=None, out=None):
-    """One frame as a PNG, for the slide's still and for previews. Default: the middle of the video."""
-    t = _duration(mp4) / 2 if t is None else t
+    """One frame as a PNG, for the slide's still and for previews. Default: the middle of the video; t="last" is
+    the final frame (the finished figure)."""
     out = Path(out) if out else Path(mp4).with_name(Path(mp4).stem + "_poster.png")
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{t:.3f}", "-i", str(mp4), "-frames:v", "1", str(out)], check=True)
+    out.unlink(missing_ok=True)
+    if t == "last":   # seek near the end and keep overwriting: -ss at the exact duration yields no frame
+        cmd = ["-sseof", "-1", "-i", str(mp4), "-update", "1"]
+    else:
+        cmd = ["-ss", f"{_duration(mp4) / 2 if t is None else t:.3f}", "-i", str(mp4), "-frames:v", "1"]
+    subprocess.run(["ffmpeg", "-v", "error", "-y", *cmd, str(out)], check=True)
+    if not out.exists():
+        raise ValueError(f"no frame at t={t} in {mp4} (duration {_duration(mp4):.2f} s)")
     return out
 
 

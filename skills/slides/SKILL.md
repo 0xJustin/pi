@@ -42,6 +42,25 @@ Runs with the system `python3` (python-pptx, matplotlib). `render` uses LibreOff
 Make each figure with the `figures` skill at exactly its frame's size; a figure made at another size gets
 cropped. An MP4 goes in like a PNG (`poster=` sets its still; default the middle frame).
 
+**Animation is one video per slide**, made with the `figures` skill's `fs.Writer` at the frame's size; no
+PowerPoint transitions or build animations. Animate only what changes over time (a rollout, a trace growing, a
+build-up of one figure), one idea per video, and end on the complete figure: pass `poster=fs.poster(mp4, t="last")` so the still on the slide and in a circulated deck is the finished figure.
+
+## The story
+
+A loose guide for the outline, not a checklist: propose an outline against it before building slides, and
+say where a talk departs from it on purpose. Sources and links in `sources.md`.
+
+| | move | in practice | from |
+|---|---|---|---|
+| 1 | One-sentence premise; every slide titled with its claim | Write the premise first; the titles in order read as the argument | Alon; Alley (assertion–evidence study, d = 0.81 on comprehension); McConnell |
+| 2 | Open on the phenomenon and a question, not an outline | Real fly behavior and the question within two minutes; orientation only after the motivation | Peyton Jones; Card (frog's fly detector → fly's frog detector) |
+| 3 | The audience predicts before each key result | Show the setup, ask what the model will do, then show it | Crouch et al. 2004 (watching a demo without predicting taught nothing) |
+| 4 | Concrete before abstract | One example (real and simulated side by side) before aggregates; a toy case before the full system | Sanderson; Peyton Jones ("omit the general case, not the example") |
+| 5 | Name the obvious wrong model and show it failing | Say how the model differs from its nearest neighbor ("build a fence") | Muller (refuting misconceptions ≈ doubled scores); Winston |
+| 6 | A recurring home slide at each transition | The same overview diagram with the current part highlighted | McConnell; Winston ("verbal punctuation"); signaling meta-analysis |
+| 7 | End on contributions that answer the opening question | Leave that slide up for questions; no acknowledgments, "Questions?" or "thank you" slide last | Winston; McConnell |
+
 ## Writing the slides
 
 - **The title is the claim**: one full sentence, at most two lines, no period. "The connectome-constrained model
@@ -81,6 +100,7 @@ opens it in PowerPoint on the Mac. Give the render's `sheet.png` path too.
 
 ## Files
 
+- `sources.md`: links behind the story table, plus what the research found on humor and animation.
 - `slidestyle/`: `deck.py` (`Deck`), `check.py` (`check`), `render.py` (`render`, `sheet`), `layouts.py` (frames
   in inches, `figure_size`), `build_template.py` (writes the template).
 - `template/dark.pptx` (what `Deck` builds on) and `template/dark.potx` (for the user's PowerPoint). Both are
