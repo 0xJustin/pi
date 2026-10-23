@@ -19,8 +19,8 @@ NS = {"a": "http://schemas.openxmlformats.org/drawingml/2006/main",
       "p": "http://schemas.openxmlformats.org/presentationml/2006/main",
       "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
 XMLNS = " ".join(f'xmlns:{k}="{v}"' for k, v in NS.items())
-BG2 = "#1C1C1C"
-HEAD_FONT, BODY_FONT = "Source Sans 3 Semibold", "Source Sans 3"
+BG2 = "#1C1A17"
+HEAD_FONT, BODY_FONT = "Figtree SemiBold", "Figtree"
 
 
 def emu(inches):
@@ -156,7 +156,7 @@ def write_theme(master):
     for k, v in colors.items():
         scheme.append(etree.fromstring(f'<a:{k} {XMLNS}><a:srgbClr val="{hx(v)}"/></a:{k}>'))
     fonts = root.find(".//a:fontScheme", NS)
-    fonts.set("name", "Source Sans 3")
+    fonts.set("name", "Figtree")
     fonts.find("a:majorFont/a:latin", NS).set("typeface", HEAD_FONT)
     fonts.find("a:minorFont/a:latin", NS).set("typeface", BODY_FONT)
     part._blob = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)

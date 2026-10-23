@@ -1,10 +1,10 @@
-"""The dark slide style: Source Sans 3, sizes in real points at slide scale, no chart junk."""
+"""The dark slide style: Figtree, sizes in real points at slide scale, no chart junk."""
 from pathlib import Path
 import matplotlib
 import matplotlib.pyplot as plt
 from cycler import cycler
 from matplotlib import font_manager
-from .palette import BG, INK, INK2, INK3
+from .palette import BG, INK, INK2, INK3, QUIET
 
 FONT_DIR = Path(__file__).resolve().parent.parent / "fonts"
 SLIDE_W, SLIDE_H = 13.333, 7.5   # 16:9 PowerPoint slide, inches
@@ -15,15 +15,16 @@ def apply(size=16):
     for f in FONT_DIR.glob("*.ttf"):
         font_manager.fontManager.addfont(str(f))
     plt.rcParams.update({
-        "font.family": "Source Sans 3", "font.size": size,
+        "font.family": "Figtree", "font.size": size,
         "axes.titlesize": size, "axes.labelsize": size, "xtick.labelsize": size - 2, "ytick.labelsize": size - 2,
         "legend.fontsize": size - 2, "legend.frameon": False,
         "figure.facecolor": BG, "axes.facecolor": BG, "savefig.facecolor": BG, "savefig.dpi": 200,
         "text.color": INK, "axes.labelcolor": INK2, "axes.titlecolor": INK2, "axes.titlelocation": "left",
         "axes.edgecolor": INK3, "xtick.color": INK2, "ytick.color": INK2,
         "axes.spines.top": False, "axes.spines.right": False, "axes.grid": False,
-        "axes.prop_cycle": cycler(color=[INK2]),   # an uncolored line is gray: color is always a choice
+        "axes.prop_cycle": cycler(color=[QUIET]),   # an uncolored line is gray: color is always a choice
         "image.cmap": "gray", "lines.linewidth": 2.2, "lines.solid_capstyle": "round",
+        "lines.solid_joinstyle": "round", "lines.dash_capstyle": "round",
         "pdf.fonttype": 42, "ps.fonttype": 42, "svg.fonttype": "none",   # editable text in Illustrator
     })
 

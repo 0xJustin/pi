@@ -17,7 +17,7 @@ def soffice():
 
 
 def _env():
-    """LibreOffice finds fonts through fontconfig: add the bundled Source Sans 3 to the system configuration."""
+    """LibreOffice finds fonts through fontconfig: add the bundled Figtree to the system configuration."""
     CACHE.mkdir(parents=True, exist_ok=True)
     conf = CACHE / "fonts.conf"
     conf.write_text(f"""<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "fonts.dtd">

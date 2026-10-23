@@ -1,6 +1,6 @@
 ---
 name: slides
-description: Build every slide deck, weekly-meeting update or talk for the user on their dark PowerPoint template (Source Sans 3, one claim per slide, figures from the figures skill) and check the rendered slides before handing over. Use whenever you make or add to a .pptx, deck, slides or presentation for the user, in place of pptxgenjs or any generic theme.
+description: Build every slide deck, weekly-meeting update or talk for the user on their dark PowerPoint template (Figtree, one claim per slide, figures from the figures skill) and check the rendered slides before handing over. Use whenever you make or add to a .pptx, deck, slides or presentation for the user, in place of pptxgenjs or any generic theme.
 ---
 
 # Slides
@@ -75,13 +75,13 @@ say where a talk departs from it on purpose. Sources and links in `sources.md`.
 - **Never add what makes a deck read as generated**: small all-caps labels above titles, lines or bars under
   titles or along edges, icons in circles, cards with colored borders, "Agenda", "Key takeaways" or "Thank you"
   slides, bullet lists standing in for a figure, emoji, centered body text, decorative color or gradients.
-  Text is `INK` or the gray `INK2`; color only marks a physical quantity.
+  Text is cream `INK` or `INK2`; color only marks a physical quantity.
 
 ## The loop
 
 1. **Save with `d.save`** and read every `SLIDE CHECK` line. Fix it, or say in your reply why it is right. The
    checks: text overflowing its box (measured with the real font), claims over two lines or ending in a period,
-   text under 14 pt, fonts other than Source Sans 3, text colors off the palette, internal ids, empty placeholders
+   text under 14 pt, fonts other than Figtree, text colors off the palette, internal ids, empty placeholders
    and figure frames, figures cropped to fit (made at the wrong size), figures under 150 dpi on the slide,
    shapes off the slide, overlapping text boxes, slides over 40 words (Recap / asks excepted), layouts not from
    this template. `python -m slidestyle.check deck.pptx` runs them on a deck edited by hand.

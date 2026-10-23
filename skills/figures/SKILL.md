@@ -1,6 +1,6 @@
 ---
 name: figures
-description: Make every figure, plot, chart, animation or video for the user in their visual language (dark background, color reserved for physical quantities, Source Sans 3) and critique the rendered result before showing it — right chart for the question, no clipped or overlapping text, labeled axes with units, no internal ids as labels. Use every time you produce a figure or video for the user, including quick diagnostic plots, not only when asked to polish one.
+description: Make every figure, plot, chart, animation or video for the user in their visual language (dark background, color reserved for physical quantities, Figtree) and critique the rendered result before showing it — right chart for the question, no clipped or overlapping text, labeled axes with units, no internal ids as labels. Use every time you produce a figure or video for the user, including quick diagnostic plots, not only when asked to polish one.
 ---
 
 # Figures
@@ -26,7 +26,8 @@ so font sizes are checked at the size they will be seen.
 
 ## The visual language
 
-- **Dark background** (`fs.BG`). Slides are dark, and the user's PI reads them in dark mode.
+- **Dark background** (`fs.BG`, near-black and slightly warm). Slides are dark, and the user's PI reads them in
+  dark mode.
 - **Color means a physical quantity.** One hue per family, the same in every figure and talk:
 
   | family | quantities |
@@ -40,14 +41,17 @@ so font sizes are checked at the size they will be seen.
   `fs.color_for(quantity)` returns the hue; a heatmap of one quantity uses `fs.seq_cmap(quantity)` (background at
   zero, the hue at the top). A quantity not in the table raises: ask the user which family it joins. The hues
   stay apart under the common color-vision deficiencies (`python swatch.py out.png` shows them).
-- **Everything else is gray.** Reference data (the fly) is a thick `fs.INK3` line behind the model;
-  text is `fs.INK` or `fs.INK2`. An uncolored `plot` comes out gray, so color is always a choice.
+- **Everything else is warm gray.** Reference data (the fly) is a thick `fs.INK3` line behind the model. Text is
+  cream `fs.INK`; tick labels and panel titles `fs.INK2`; only text meant to recede (the reference's label)
+  `fs.QUIET`. An uncolored `plot` comes out `fs.QUIET`, so color is always a choice.
 - **Models and conditions are told apart by position**: one row or panel each, the same reference in gray
   behind every one (small multiples), named by a direct label beside the row or at the line's end. No legends
   when a direct label fits. Color is never the only cue.
 - **Categories that need color but are not quantities** (neuron superclasses, sensor classes, behaviors): ask
   the user before choosing colors. Paper figures on a light background are not defined yet: ask.
-- **Source Sans 3** for all text (bundled in `fonts/`; the user installs the same files for PowerPoint).
+- **Figtree** for all text (bundled in `fonts/`; the user installs the same files for PowerPoint).
+- **Soft shapes**: round line caps and joins (set by `fs.apply`); in diagrams, rounded boxes and open
+  chevron arrowheads with round ends, never sharp filled triangles.
 - **Panel titles name the quantity and its unit**, left-aligned: "body height (mm)". The y label lives in the
   title; small multiples sharing a y axis carry it once, on the top panel. The finding belongs in the slide or
   caption, never in the panel title; slide figures carry no figure title or subtitle.
@@ -102,4 +106,4 @@ Save under the home directory (not `/tmp`) so the user's Mac can open it, and gi
 
 - `figstyle/`: `palette.py` (hues, grays, `color_for`, `seq_cmap`), `style.py` (`apply`, `slide_figure`, `save`),
   `check.py` (`check`), `video.py` (`Writer`, `poster`, `contact_sheet`).
-- `swatch.py`: the hues under simulated color-vision deficiencies. `fonts/`: Source Sans 3 and its license (OFL).
+- `swatch.py`: the hues under simulated color-vision deficiencies. `fonts/`: Figtree and its license (OFL).

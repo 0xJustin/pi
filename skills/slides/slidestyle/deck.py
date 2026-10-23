@@ -124,7 +124,7 @@ class Deck:
         from pptx.enum.dml import MSO_THEME_COLOR
         tf = ph.text_frame
         tf.paragraphs[0].text = heading
-        tf.paragraphs[0].runs[0].font.color.theme_color = MSO_THEME_COLOR.TEXT_2   # the gray secondary ink
+        tf.paragraphs[0].runs[0].font.color.theme_color = MSO_THEME_COLOR.TEXT_2   # the secondary ink
 
         def add(text, level):
             p = tf.add_paragraph()

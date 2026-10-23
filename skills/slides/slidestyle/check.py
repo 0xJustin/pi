@@ -17,12 +17,12 @@ P = "{http://schemas.openxmlformats.org/presentationml/2006/main}"
 FONTS = SKILL.parent / "figures" / "fonts"
 _FT = {}
 TITLES = (PP_PLACEHOLDER.TITLE, PP_PLACEHOLDER.CENTER_TITLE)
-OUR_FONTS = {"Source Sans 3", "Source Sans 3 Semibold", "+mj-lt", "+mn-lt"}
+OUR_FONTS = {"Figtree", "Figtree Medium", "Figtree SemiBold", "+mj-lt", "+mn-lt"}
 MIN_PT, MAX_WORDS, DPI = 14, 40, 150
 
 
 def _font(bold):
-    f = FONTS / ("SourceSans3-Semibold.ttf" if bold else "SourceSans3-Regular.ttf")
+    f = FONTS / ("Figtree-SemiBold.ttf" if bold else "Figtree-Regular.ttf")
     if f not in _FT:
         _FT[f] = ft2font.FT2Font(str(f))
     return _FT[f]
@@ -33,6 +33,12 @@ def _width_pt(text, pt, bold):
     ft.set_size(pt, 72)
     ft.set_text(text)
     return ft.get_width_height()[0] / 64
+
+
+def _line_em(bold):
+    """Line height in ems: the font's ascender to descender plus line gap, what PowerPoint spaces single lines by."""
+    ft = _font(bold)
+    return ft.height / ft.units_per_EM
 
 
 def _lines(text, pt, width, bold):
@@ -98,11 +104,11 @@ def _text_issues(slide, shape, where):
         indent = 27 * para.level
         n = _lines(text, pt, width - indent, is_title) if text.strip() else 1
         lines_total += n
-        used += n * pt * 1.326 + (0 if k == 0 else (12 if para.level == 0 else 4))
+        used += n * pt * _line_em(is_title) + (0 if k == 0 else (12 if para.level == 0 else 4))
         for r in para.runs:
             face = r.font.name
             if face and face not in OUR_FONTS:
-                issues.append(f"{where}: font {face!r} is not Source Sans 3")
+                issues.append(f"{where}: font {face!r} is not Figtree")
             rgb = r._r.find(f"{A}rPr/{A}solidFill/{A}srgbClr")
             if rgb is not None and not allowed("#" + rgb.get("val")):
                 issues.append(f"{where}: text color #{rgb.get('val')} is not a quantity hue or a gray")
