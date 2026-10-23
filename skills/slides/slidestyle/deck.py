@@ -7,6 +7,8 @@
 import copy, sys
 from pathlib import Path
 from pptx import Presentation
+from pptx.oxml import parse_xml
+from pptx.oxml.ns import nsdecls, qn
 from . import layouts as L
 
 SKILL = Path(__file__).resolve().parent.parent
@@ -77,6 +79,13 @@ class Deck:
 
     def save(self, path, check=True):
         """Number the slides, run the checks, print every issue, save. Returns the issues."""
+        # python-pptx relates the notes master it creates for speaker notes but does not list it in presentation.xml;
+        # PowerPoint then asks to repair the file and may drop its pictures.
+        pres = self.prs.part._element
+        rid = next((r.rId for r in self.prs.part.rels.values() if r.reltype.endswith("/notesMaster")), None)
+        if rid and pres.find(qn("p:notesMasterIdLst")) is None:
+            pres.find(qn("p:sldMasterIdLst")).addnext(parse_xml(
+                f'<p:notesMasterIdLst {nsdecls("p", "r")}><p:notesMasterId r:id="{rid}"/></p:notesMasterIdLst>'))
         for n, s in enumerate(self.prs.slides, 1):
             for t in s.shapes._spTree.iter("{http://schemas.openxmlformats.org/drawingml/2006/main}fld"):
                 if t.get("type") == "slidenum":
@@ -117,7 +126,12 @@ class Deck:
                 poster = grab(path)
             slide.shapes.add_movie(str(path), x, y, w, h, poster_frame_image=str(poster), mime_type="video/mp4")
         else:
-            ph.insert_picture(str(path))   # crops to fill the frame if the figure was made at another size
+            frame = ph.left, ph.top, ph.width, ph.height
+            pic = ph.insert_picture(str(path))   # crops to fill the frame if the figure was made at another size
+            # The template's placeholders carry no geometry. PowerPoint draws a picture that inherits none as nothing,
+            # so give each picture its frame and a rectangle explicitly.
+            pic.left, pic.top, pic.width, pic.height = frame
+            pic._element.spPr.append(parse_xml(f'<a:prstGeom {nsdecls("a")} prst="rect"><a:avLst/></a:prstGeom>'))
 
     @staticmethod
     def _items(ph, items, heading):
