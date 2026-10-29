@@ -1,7 +1,9 @@
 """Colors. One hue per physical-quantity family, from Paul Tol's "light" scheme used as published; grays for
 everything that is not a quantity. The five hues were picked from that scheme so every pair stays apart under
 simulated deuteranopia, protanopia and tritanopia (worst-pair CIELAB distance >= 19), since any two quantities
-may share a panel."""
+may share a panel. The two chemical families (added 2026-10-23, from Tol's "vibrant" and "light" schemes) were
+the best pair available and fall short: tastant cyan vs joint-angle blue is 17.3 under tritanopia; accepted by
+the user."""
 import matplotlib.colors as mcolors
 
 BG = "#11100E"                    # slide and figure background: near-black, slightly warm
@@ -15,6 +17,15 @@ FAMILIES = {   # family: (hue, quantities that take it)
     "muscle activation": ("#FFAAAA", ["muscle activation", "muscle force"]),
     "neural activity": ("#AAAA00", ["neural activity", "membrane voltage", "voltage", "firing rate", "spike rate"]),
     "body motion": ("#EEDD88", ["body motion", "forward speed", "speed", "body height", "heading", "turning rate"]),
+    "odor": ("#EE3377", ["odor", "odor concentration", "odorant concentration"]),
+    "tastant": ("#99DDFF", ["tastant", "tastant concentration"]),
+    # Not a Tol hue: the violet whose worst pair (all hues, both song categories, text grays; typical vision and
+    # deuteranopia, protanopia, tritanopia) is 21.4, with contrast 5.3 on BG. User, 2026-10-29.
+    "sound": ("#8A75F0", ["sound", "particle velocity", "sound level"]),
+}
+# Categories the user chose colors for (not quantities), allowed beside the quantity hues.
+CATEGORIES = {
+    "sine song": "#2C7FB8", "pulse song": "#D7301F",  # as Baker et al. 2022, Fig. 1A; user, 2026-10-29
 }
 _LOOKUP = {q: hue for fam, (hue, qs) in FAMILIES.items() for q in [fam, *qs]}
 HUES = {hue for hue, _ in FAMILIES.values()}
@@ -44,4 +55,4 @@ def is_gray(color, tol=0.06):
 
 def allowed(color):
     """True for a quantity hue, a gray, or one of the warm inks."""
-    return is_gray(color) or mcolors.to_hex(color).upper() in {h.upper() for h in HUES | INKS}
+    return is_gray(color) or mcolors.to_hex(color).upper() in {h.upper() for h in HUES | INKS | set(CATEGORIES.values())}
