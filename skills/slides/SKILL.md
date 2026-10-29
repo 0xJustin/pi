@@ -69,13 +69,18 @@ say where a talk departs from it on purpose. Sources and links in `sources.md`.
   must be visible in that slide's figure. What the speaker says beyond the claim goes in `notes=`.
 - **Mature talks** may drop titles (`d.figure`) and let the figure speak; the claim moves to the notes.
 - **Name things as the project does**: models, conditions and quantities by their exact names, no internal ids.
+- **Show derivations in full** unless the user asks for a shortened one: every step from the source's equations
+  to the form the slide uses, each substitution or simplification on its own line with what it assumes (e.g.
+  "A = 1/(τ1+τ2)", "binding at equilibrium"). Never write "it follows that" or "one can show" in place of a step.
+  The steps go in the figure, so the 40-word limit does not push them out; split a long derivation over slides.
 - **Weekly running deck**: newest week first. Open the existing deck with `Deck(path)`, add the week's block
   (a section slide with the date, the strongest result first, then `recap_asks` with specific asks), and
   `d.move(new_slides, 1)` to put it right after the title slide.
 - **Never add what makes a deck read as generated**: small all-caps labels above titles, lines or bars under
   titles or along edges, icons in circles, cards with colored borders, "Agenda", "Key takeaways" or "Thank you"
   slides, bullet lists standing in for a figure, emoji, centered body text, decorative color or gradients.
-  Text is cream `INK` or `INK2`; color only marks a physical quantity.
+  Text is cream `INK` or `INK2`; color marks a recurring quantity (its fixed hue) or, through the deck's own
+  mapping, a free color (figures skill); the same thing keeps one color across the deck.
 
 ## The loop
 

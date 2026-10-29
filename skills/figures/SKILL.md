@@ -1,6 +1,6 @@
 ---
 name: figures
-description: Make every figure, plot, chart, animation or video for the user in their visual language (dark background, color reserved for physical quantities, Figtree) and critique the rendered result before showing it — right chart for the question, no clipped or overlapping text, labeled axes with units, no internal ids as labels. Use every time you produce a figure or video for the user, including quick diagnostic plots, not only when asked to polish one.
+description: Make every figure, plot, chart, animation or video for the user in their visual language (dark background, fixed hues for recurring quantities and free colors for the rest, Figtree) and critique the rendered result before showing it — right chart for the question, no clipped or overlapping text, labeled axes with units, no internal ids as labels. Use every time you produce a figure or video for the user, including quick diagnostic plots, not only when asked to polish one.
 ---
 
 # Figures
@@ -26,9 +26,8 @@ so font sizes are checked at the size they will be seen.
 
 ## The visual language
 
-- **Dark background** (`fs.BG`, near-black and slightly warm). Slides are dark, and the user's PI reads them in
-  dark mode.
-- **Color means a physical quantity.** One hue per family, the same in every figure and talk:
+- **Dark background** (`fs.BG`, near-black and slightly warm). Slides are dark by default
+- **Recurring quantities keep fixed hues**, the same in every figure and talk:
 
   | family | quantities |
   |---|---|
@@ -38,17 +37,24 @@ so font sizes are checked at the size they will be seen.
   | neural activity | membrane voltage, firing rate |
   | body motion | forward speed, body height, heading, turning rate |
 
-  `fs.color_for(quantity)` returns the hue; a heatmap of one quantity uses `fs.seq_cmap(quantity)` (background at
-  zero, the hue at the top). A quantity not in the table raises: ask the user which family it joins. The hues
-  stay apart under the common color-vision deficiencies (`python swatch.py out.png` shows them).
-- **Everything else is warm gray.** Reference data (the fly) is a thick `fs.INK3` line behind the model. Text is
+  `fs.color_for(quantity)` returns the hue. Sub-kinds of one quantity (three neuron types' voltages) take
+  gradations of its hue, `fs.shade(quantity, f)` (tints for f > 0, shades for f < 0). A heatmap uses
+  `fs.seq_cmap(quantity)` (background at zero, the hue at the top). The hues stay apart under the common
+  color-vision deficiencies (`python swatch.py out.png` shows them).
+- **Everything else takes a free color the agent chooses**: an ephemeral quantity (sound level, an odor), a
+  category (song mode, sensor class, behavior), a condition, or a paper's own convention. No palette edit and no
+  question needed. `fs.free_colors(n)` returns readable colors away from the fixed hues; any other color works if
+  `fs.confusable(color)` is None (it does not read as a fixed quantity) and it reads on the background (3:1 for a
+  line). Keep one mapping per figure or deck, a dict at the top of the script, so the same thing keeps its color
+  throughout a presentation; nothing needs to carry over to the next one. A free color becomes a fixed family only
+  when the user asks. `fs.seq_cmap` takes a color too.
+- **Context is warm gray.** Reference data (the fly) is a thick `fs.INK3` line behind the model. Text is
   cream `fs.INK`; tick labels and panel titles `fs.INK2`; only text meant to recede (the reference's label)
   `fs.QUIET`. An uncolored `plot` comes out `fs.QUIET`, so color is always a choice.
 - **Models and conditions are told apart by position**: one row or panel each, the same reference in gray
   behind every one (small multiples), named by a direct label beside the row or at the line's end. No legends
   when a direct label fits. Color is never the only cue.
-- **Categories that need color but are not quantities** (neuron superclasses, sensor classes, behaviors): ask
-  the user before choosing colors. Paper figures on a light background are not defined yet: ask.
+- **Paper figures on a light background** are not defined yet: ask.
 - **Figtree** for all text (bundled in `fonts/`; the user installs the same files for PowerPoint).
 - **Soft shapes**: round line caps and joins (set by `fs.apply`); in diagrams, rounded boxes and open
   chevron arrowheads with round ends, never sharp filled triangles.
@@ -72,7 +78,7 @@ so font sizes are checked at the size they will be seen.
 2. **Make it at its placed size and save with `fs.save`.** Read every printed issue. Fix it, or say in your
    reply why a flagged item is right (e.g. a dimensionless label). The checks: text off the figure edge, text on
    text, text running into another panel, axes with numbers but no label or unit, text under 12 pt on the
-   slide, faint text, labels that look like internal ids, colors that are not a quantity hue or a gray, the
+   slide, faint text and lines, labels that look like internal ids, free colors that read as a fixed hue, the
    wrong background.
 3. **Look at the rendered PNG** (Read the file), not the code. Check what the code cannot:
    - data drawn so densely that elements merge (needs faceting, fewer series, or transparency, not cosmetics);

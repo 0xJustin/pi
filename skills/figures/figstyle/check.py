@@ -2,7 +2,7 @@
 import itertools, re
 import matplotlib.colors as mcolors
 import matplotlib.text as mtext
-from .palette import BG, allowed
+from .palette import BG, allowed, confusable, is_gray
 
 ID_PATTERNS = [
     (r"\b(?=[a-z0-9]*\d)(?=[a-z0-9]*[a-z])[a-z0-9]{7,}\b", "a run or hash id"),
@@ -139,17 +139,19 @@ def check(fig, placed_width=None, min_pt=12, edges=True):
                 issues.append(f"{k} {q(t)} looks like {what}; name what it stands for")
                 break
 
-    # color means a physical quantity
-    seen = {}
-    def note(c, where):
+    # a free color must not read as a fixed quantity hue, and a line must be visible
+    seen, faint = {}, {}
+    def note(c, where, line=False):
         if c is None or (isinstance(c, str) and c == "none") or mcolors.to_rgba(c)[3] == 0:
             return
         if not allowed(c):
             seen.setdefault(mcolors.to_hex(c), set()).add(where)
+        elif line and not is_gray(c) and _contrast(c, bg) < 3.0:
+            faint.setdefault(mcolors.to_hex(c), set()).add(where)
     for ax in fig.axes:
         for ln in ax.lines:
             if ln.get_visible():
-                note(ln.get_color(), _name(ax))
+                note(ln.get_color(), _name(ax), line=True)
         for col in ax.collections:
             if col.get_visible() and col.get_array() is None:
                 for c in [*col.get_facecolor(), *col.get_edgecolor()]:
@@ -162,7 +164,11 @@ def check(fig, placed_width=None, min_pt=12, edges=True):
     for t, a, k, b in texts:
         note(t.get_color(), _name(a))
     for hx, where in seen.items():
-        issues.append(f"color {hx} in {', '.join(sorted(where))} is not a quantity hue or a gray")
+        issues.append(f"color {hx} in {', '.join(sorted(where))} reads as the fixed {confusable(hx)!r} hue; "
+                      "pick another (fs.free_colors) or use that hue for that quantity")
+    for hx, where in faint.items():
+        issues.append(f"line color {hx} in {', '.join(sorted(where))} is faint on the background "
+                      f"({_contrast(hx, bg):.1f}:1, needs 3:1)")
     if mcolors.to_hex(bg) != mcolors.to_hex(BG):
         issues.append(f"figure background {mcolors.to_hex(bg)} is not the slide background {BG}")
     return issues
